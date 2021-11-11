@@ -1,4 +1,7 @@
 import Component from 'react';
+import React from 'react';
+import './App.css';
+import { Layout, Header } from './Layout_component';
 
 class App extends Component  {
 
@@ -45,18 +48,26 @@ class App extends Component  {
      *
      */
 
-    constructor(props) {
-        super(props);
+    // constructor(props) {
+    //     super(props);
 
-        this.state = {
-            // initialize variables here I think
-            deck: new Deck(),
-        };
-    }
+    //     this.state = {
+    //         // initialize variables here I think
+    //         deck: new Deck(),
+    //     };
+    // }
 
 
     render() {
         // render player/dealer hands, hit/stand/split buttons, bet field, etc
+        return (
+          <div className="App">
+            <Header>Join our card game!</Header>
+            <Layout>
+              Hello
+            </Layout>
+          </div>
+        );
     }
 
     startGame() {
