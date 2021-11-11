@@ -58,20 +58,8 @@ class Hand extends React.Component {
         let hardTotal = 0;
         let softTotal = 0;
         for(let card in this.cards){
-            if(card[0] === "T"){
+            if(card[0] === "T" || card[0] === "J" || card[0] === "Q" || card[0] === "K"){
                 hardTotal += 10;
-            }
-            else if(card[0] === "J"){
-                hardTotal += 11;
-                softTotal += 11;
-            }
-            else if(card[0] === "Q"){
-                hardTotal += 12;
-                softTotal += 12;
-            }
-            else if(card[0] === "K"){
-                hardTotal += 13;
-                softTotal += 13;
             }
             else if(card[0]=== "A"){
                 hardTotal += 1;
