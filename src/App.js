@@ -1,6 +1,6 @@
 import React from 'react';
 import Deck from './deck.js';
-import Card from './card.jsx';
+import Hand from './hand.jsx';
 
 class App extends React.Component  {
 
@@ -47,46 +47,46 @@ class App extends React.Component  {
      *
      */
 
-    constructor(props) {
-         super(props);
+    startGame = ()=> {
 
-         this.state = {
-             // initialize variables here I think
-             deck: new Deck(),
-         };
-    }
+        // add cards to dealer's hand
+        var dealerCard1 = this.props.deck.draw(true);
+        var dealerCard2 = this.props.deck.draw(false);
+
+        this.props.dealerHand.add(dealerCard1);
+        this.props.dealerHand.add(dealerCard2);
+
+        // add card to player's hand
+        var playerCard = this.props.deck.draw(true);
+        this.props.playerHand.add(playerCard);
 
 
-    render() {
-        // render player/dealer hands, hit/stand/split buttons, bet field, etc
-        return (
-          <div className="App">
-            <Card suit="D" rank="A" isFaceup={true}/>
-          </div>
-        );
-    }
-
-    startGame() {
         // start the game
         // add cards to player and dealer hands
         // enable hit/split (if able)/stand buttons
+        return true;
     }
 
-    setBet() {
+    setBet = ()=> {
+        return console.log('bet set');
         // set the player bet according to what they put in the input field.
         // remember to validate the input (no strings, only ints, playerBet<=playerMoney)
     }
 
-    hit() {
+    hit = ()=> {
+
+        return console.log('hit');
         // add card from deck to player's hand
         // automatically stand if the player busts
     }
 
     split() {
+        return console.log('split');
         // yea
     }
 
     stand() {
+        return console.log('stand');
         // check who wins
         // call endGame()
     }
@@ -95,6 +95,39 @@ class App extends React.Component  {
         // perform cleanup
     }
 
+    render() {
+        var c = this.props.deck.draw();
+        // render player/dealer hands, hit/stand/split buttons, bet field, etc
+        return (
+          <div className="App">
+
+
+            <button onClick={this.startGame}>
+                New Game
+            </button>
+
+            <button onClick={this.hit}>
+                Hit
+            </button>
+
+            <button onClick={this.stand}>
+                Stand
+            </button>
+
+          </div>
+        );
+    }
 }
+
+App.defaultProps = {
+    deck: new Deck(),
+    playerMoney: 100,
+
+    dealerHand: new Hand(),
+    playerHand: new Hand(),
+
+    playerBet: 0
+}
+
 
 export default App;

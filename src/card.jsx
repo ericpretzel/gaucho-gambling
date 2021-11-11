@@ -111,13 +111,23 @@ const cards = {
 
 class Card extends React.Component {
     /*
-     * Card component will have 3 props passed in:
+     * Card component will have 2 props passed in:
      *
      * rank (string)     - determines point value of the card
      * suit (string)     - for display purposes
+     *
+     * State variable: 
+     *
      * isFaceup (boolean)  - true if the card is face-up, false if face-down
      *
      */
+    
+    constructor(props) {
+        super(props);
+        this.state = {
+            isFaceup: true
+        }
+    }
 
     render() {
         // show front of card if faceup
@@ -132,6 +142,11 @@ class Card extends React.Component {
             <img src={back} alt={back} className="card"/>
         );
     }
+
+    setFaceup = (f)=> {
+        this.setState({isFaceup: f});
+    }
+
 }
 
 export default Card;

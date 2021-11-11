@@ -1,6 +1,7 @@
-import Component from 'react';
+import React from 'react';
+import Card from './card.jsx';
 
-class Hand extends Component {
+class Hand extends React.Component {
     /*
      * The Hand component represents the cards in the hand of either the player or the dealer.
      *
@@ -85,15 +86,15 @@ class Hand extends Component {
         return totals;
     }
 
-    add(card) {
+    add = (card)=> {
         // add the given card to this.cards
-        this.cards.push(card);
+        this.props.cards.push(card);
     }
 
     clear() {
         // remove all cards from hand (for new game)
         this.cards = [];
     }
-
 }
 
+export default Hand;
