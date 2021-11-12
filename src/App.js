@@ -1,6 +1,16 @@
-import Component from 'react';
+import React from 'react';
+import Hand from './hand.jsx';
+import BettingForm from './bet.jsx';
 
-class App extends Component  {
+const util = require('./util.js');
+
+const gameState = {
+    NOT_STARTED: 0,
+    STARTED: 1,
+    FINISHED: 2,
+}
+
+class App extends React.Component  {
 
     /*
      * This is where most of the game takes place
@@ -17,15 +27,12 @@ class App extends Component  {
      *
      * playerBet:int            - The player's current bet
      *
-     * gameState:?              - Current state of the game (in progress, finished...etc.?)
+     * gameState                - Current state of the game (in progress, finished...etc.?)
      *
      *
-     * FUNCTIONS:
+     * FUNCTIONS
      *
      * render()                 - display the app
-     *
-     * setBet():void            - sets the playerBet based on some input field. Check if the player's balance
-     *                            is high enough to bet
      *
      * startGame():void         - set up initial conditions: player gets 2 cards face-up, dealer gets 1 card
      *                            face-up and 1 card face-down. Lock in bet, enable hit/stand buttons... etc
@@ -49,45 +56,144 @@ class App extends Component  {
         super(props);
 
         this.state = {
-            // initialize variables here I think
-            deck: new Deck(),
+            deck: util.getDeck(),
+
+            playerMoney: 100,
+            playerBet: 0,
+
+            dealerHand: [],
+            playerHand: [],
+
+            gameState: gameState.NOT_STARTED
         };
     }
 
+    // starts the game with the given bet
+    startGame = (bet)=> {
+        // validate bet input
+        if (isNaN(bet) || +bet <= 0 || +bet > this.state.playerMoney)
+            return alert("Invalid Bet!");
 
-    render() {
-        // render player/dealer hands, hit/stand/split buttons, bet field, etc
+        // generate new shuffled deck
+        var deck = util.getDeck();
+
+        var dealerHand = [];
+        var playerHand = [];
+
+        // add cards to dealer's hand
+        var dealerCard1 = deck.shift();
+        var dealerCard2 = deck.shift();
+
+        dealerHand.push(dealerCard1);
+        dealerHand.push(dealerCard2);
+
+        // add card to player's hand
+        var playerCard = deck.shift()
+
+        playerHand.push(playerCard);
+
+        // update state of game to match everything generated here
+        // since state is modified asynchronously, need to pass in a function to guarantee playerMoney is modified correctly
+        this.setState((state, props) => ({
+            deck: deck,
+            dealerHand: dealerHand,
+            playerHand: playerHand,
+            playerBet: bet,
+            playerMoney: state.playerMoney - bet,
+            gameState: gameState.STARTED,
+        }));
+
+        console.log('game started');
     }
 
-    startGame() {
-        // start the game
-        // add cards to player and dealer hands
-        // enable hit/split (if able)/stand buttons
+    hit = ()=> {
+
+        var deck = this.state.deck;
+        var playerHand = this.state.playerHand;
+        
+
+        var card = deck.shift();
+        playerHand.push(card);
+        var score = util.calculateTotal(util.evaluateHand(this.state.playerHand));
+        // TODO check if bust
+        console.log(score);//testing vals
+
+        
+        if(score > 21){
+            console.log("busted"); //testing to see if values work
+            this.stand();
+        }
+        if(score == 21){
+            console.log("blackjack"); //testing blackjack
+            this.stand();
+        }
+
+        this.setState({
+            deck: deck,
+            playerHand: playerHand
+        });
+
+        return console.log('hit complete');
     }
 
-    setBet() {
-        // set the player bet according to what they put in the input field.
-        // remember to validate the input (no strings, only ints, playerBet<=playerMoney)
-    }
-
-    hit() {
-        // add card from deck to player's hand
-        // automatically stand if the player busts
-    }
-
-    split() {
+    split = ()=> {
+        return console.log('split');
         // yea
     }
 
-    stand() {
-        // check who wins
+    stand= ()=> {
+
+        var dealerScore = util.calculateTotal(util.evaluateHand(this.state.dealerHand));
+
+        console.log("dealerScore");
+        console.log(dealerScore);//testing values
+
+        var playerScore = util.calculateTotal(util.evaluateHand(this.state.playerHand));
+
+        console.log("playerScore");
+        console.log(playerScore);// testing values
+
+        if(playerScore == 21){
+            return console.log("stand: blackjack");
+        }
+
+        var isWinner = util.getWinner(playerScore, dealerScore);
+
+        console.log(isWinner); // testing winner
+
+        return console.log('stand complete');
         // call endGame()
     }
 
-    endGame() {
+    endGame= ()=> {
         // perform cleanup
     }
 
+    render() {
+        // render everything
+        var hitButton = (
+        <button onClick={this.hit}
+                disabled={this.state.gameState !== gameState.STARTED}>
+                Hit
+        </button>
+        );
+        var standButton = (
+            <button onClick={this.stand} 
+                disabled={this.state.gameState !== gameState.STARTED}>
+                <span>Stand</span>
+            </button>
+        );
+
+        return (
+          <div className="App">
+            <BettingForm disabled={this.state.gameState===gameState.STARTED} startGame={this.startGame}/>
+
+            {hitButton}
+            {standButton}
+            <Hand cards={this.state.playerHand}/>
+          </div>
+        );
+    }
 }
 
 export default App;
