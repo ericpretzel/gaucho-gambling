@@ -2,6 +2,17 @@ import React from 'react';
 import Deck from './deck.js';
 import Hand from './hand.jsx';
 
+const util = require('./util.js');
+
+const gameState = {
+    NOT_STARTED: 0,
+    STARTED: 1,
+    FINISHED: 2,
+}
+
+
+
+
 class App extends React.Component  {
 
     /*
@@ -19,15 +30,12 @@ class App extends React.Component  {
      *
      * playerBet:int            - The player's current bet
      *
-     * gameState:?              - Current state of the game (in progress, finished...etc.?)
+     * gameState                - Current state of the game (in progress, finished...etc.?)
      *
      *
-     * FUNCTIONS:
+     * FUNCTIONS
      *
      * render()                 - display the app
-     *
-     * setBet():void            - sets the playerBet based on some input field. Check if the player's balance
-     *                            is high enough to bet
      *
      * startGame():void         - set up initial conditions: player gets 2 cards face-up, dealer gets 1 card
      *                            face-up and 1 card face-down. Lock in bet, enable hit/stand buttons... etc
@@ -47,30 +55,72 @@ class App extends React.Component  {
      *
      */
 
-    startGame = ()=> {
+    constructor(props) {
+        super(props);
 
-        // add cards to dealer's hand
-        var dealerCard1 = this.props.deck.draw(true);
-        var dealerCard2 = this.props.deck.draw(false);
+        this.state = {
+            deck: this.getDeck(),
 
-        this.props.dealerHand.add(dealerCard1);
-        this.props.dealerHand.add(dealerCard2);
+            playerMoney: 100,
+            playerBet: 0,
 
-        // add card to player's hand
-        var playerCard = this.props.deck.draw(true);
-        this.props.playerHand.add(playerCard);
+            dealerHand: [],
+            playerHand: [],
 
-
-        // start the game
-        // add cards to player and dealer hands
-        // enable hit/split (if able)/stand buttons
-        return true;
+            gameState: gameState.NOT_STARTED
+        };
     }
 
-    setBet = ()=> {
-        return console.log('bet set');
-        // set the player bet according to what they put in the input field.
-        // remember to validate the input (no strings, only ints, playerBet<=playerMoney)
+    // get a new shuffled deck
+    getDeck = ()=> {
+        var deck = []
+        const ranks = ['A','2','3','4','5','6','7','8','9','T','J','Q','K'];
+        const suits = ['D','H','C','S'];
+        ranks.forEach(rank => {
+            suits.forEach(suit => {
+                deck.push(rank+suit);
+            })
+        });
+        deck = util.shuffleArray(deck);
+
+        return deck;
+    }
+
+    // starts the game with the given bet
+    startGame = (bet)=> {
+        if (bet <= 0 || bet > this.state.playerMoney)
+            return alert("Invalid bet");
+
+        // generate new shuffled deck
+        var deck = this.getDeck();
+
+        var dealerHand = [];
+        var playerHand = [];
+
+        // add cards to dealer's hand
+        var dealerCard1 = deck.shift();
+        var dealerCard2 = deck.shift();
+
+        dealerHand.push(dealerCard1);
+        dealerHand.push(dealerCard2);
+
+        // add card to player's hand
+        var playerCard = deck.shift()
+
+        playerHand.push(playerCard);
+
+        // update state of game to match everything generated here
+        // since state is modified asynchronously, need to pass in a function to guarantee playerMoney is modified correctly
+        this.setState((state, props) => ({
+            deck: deck,
+            dealerHand: dealerHand,
+            playerHand, playerHand,
+            playerBet: bet,
+            playerMoney: state.playerMoney - bet,
+            gameState: gameState.STARTED,
+        }));
+
+        console.log('game started');
     }
 
     hit = ()=> {
@@ -80,54 +130,35 @@ class App extends React.Component  {
         // automatically stand if the player busts
     }
 
-    split() {
+    split = ()=> {
         return console.log('split');
         // yea
     }
 
-    stand() {
+    stand= ()=> {
         return console.log('stand');
         // check who wins
         // call endGame()
     }
 
-    endGame() {
+    endGame= ()=> {
         // perform cleanup
     }
 
     render() {
-        var c = this.props.deck.draw();
         // render player/dealer hands, hit/stand/split buttons, bet field, etc
+
+        var newGameButton = <button onClick={this.startGame} disabled={this.state.gameState === gameState.STARTED}>New Game</button>
+        var hitButton = <button disabled={this.state.gameState !== gameState.STARTED}>Hit</button>
+
         return (
           <div className="App">
-
-
-            <button onClick={this.startGame}>
-                New Game
-            </button>
-
-            <button onClick={this.hit}>
-                Hit
-            </button>
-
-            <button onClick={this.stand}>
-                Stand
-            </button>
-
+            {newGameButton}
+            {hitButton}
+            <Hand cards={this.state.playerHand}/>
           </div>
         );
     }
 }
-
-App.defaultProps = {
-    deck: new Deck(),
-    playerMoney: 100,
-
-    dealerHand: new Hand(),
-    playerHand: new Hand(),
-
-    playerBet: 0
-}
-
 
 export default App;

@@ -54,6 +54,7 @@ import cKH from './assets/cards/KH.svg'
 import cKD from './assets/cards/KD.svg'
 import cKC from './assets/cards/KC.svg'
 import cKS from './assets/cards/KS.svg'
+
 const cards = {
 	'AH': cAH,
 	'AD': cAD,
@@ -110,43 +111,18 @@ const cards = {
 }
 
 class Card extends React.Component {
-    /*
-     * Card component will have 2 props passed in:
-     *
-     * rank (string)     - determines point value of the card
-     * suit (string)     - for display purposes
-     *
-     * State variable: 
-     *
-     * isFaceup (boolean)  - true if the card is face-up, false if face-down
-     *
-     */
-    
-    constructor(props) {
-        super(props);
-        this.state = {
-            isFaceup: true
-        }
-    }
-
     render() {
         // show front of card if faceup
         if (this.props.isFaceup)
         return (
             <img src={cards[this.props.rank+this.props.suit]} alt={back} className="card"/>
-        );     
-
+        );
 
         // else show back of card
         return (
             <img src={back} alt={back} className="card"/>
         );
     }
-
-    setFaceup = (f)=> {
-        this.setState({isFaceup: f});
-    }
-
 }
 
 export default Card;

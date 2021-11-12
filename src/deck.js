@@ -20,40 +20,14 @@ class Deck {
         this.cards = [];
 
         // populate deck with all 52 cards
-        const rank = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
-        const suit = ["S","H","D","C"]; // spades, hearts, diamonds, clubs
-        for (var r in rank) {
-            for (var s in suit) {
-                this.cards.push(rank[r] + suit[s]);
-            }
-        }
 
         this.shuffle();
 
     }
 
-    draw = (faceup)=> {
+    draw = ()=> {
         var card = this.cards.shift();
-        console.log(card);// shift removes element at index 0 and returns it
-        return (<Card rank={card[0]} suit={card[1]} isFaceup={faceup}/>);
-    }
-
-    shuffle = ()=> {
-        // shuffle array (google Fisher-Yates algorithm)
-        var copy = [], n = this.cards.length, i;
-
-        while (n) {
-
-            i = Math.floor(Math.random() * this.cards.length);
-
-            if (i in this.cards) {
-                copy.push(this.cards[i]);
-                delete this.cards[i];
-                n--;
-            }
-        }
-
-        this.cards = copy;
+        return card;
     }
 
 
