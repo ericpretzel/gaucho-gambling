@@ -40,6 +40,7 @@ exports.evaluateHand = (hand)=> {
     hand.forEach(card => {
         if (card[0] === "T" || card[0] === "J" || card[0] === "Q" || card[0] === "K") {
             hardTotal += 10;
+            softTotal += 10;
         } else if (card[0]=== "A") {
             hardTotal += 1;
             softTotal += ((softTotal + 11) > 21 ) ? 1 : 11;
@@ -49,10 +50,28 @@ exports.evaluateHand = (hand)=> {
         }
     });
 
-    let totals = {
-        hardTotal: hardTotal,
-        softTotal: softTotal
-    };
+    let totals = [hardTotal, softTotal];
     return totals;
 }
+exports.calculateTotal = (totals) => {
+    if (totals[0] === 21 || totals[1] === 21) {
+        return 21;
+    }
+    else if (totals[1] > 21) {
+        return totals[0];
+    }
 
+    return totals[1];
+}
+exports.getWinner = (playerScore, dealerScore) => {
+    switch(true) {
+        case (playerScore === dealerScore):
+        case (playerScore > 21 && dealerScore > 21):
+            return null;
+        case (playerScore > 21):
+        case (dealerScore > playerScore && dealerScore <= 21):
+            return false;
+        default:
+            return true;
+    }
+}

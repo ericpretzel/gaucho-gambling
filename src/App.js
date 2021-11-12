@@ -97,7 +97,7 @@ class App extends React.Component  {
         this.setState((state, props) => ({
             deck: deck,
             dealerHand: dealerHand,
-            playerHand, playerHand,
+            playerHand: playerHand,
             playerBet: bet,
             playerMoney: state.playerMoney - bet,
             gameState: gameState.STARTED,
@@ -110,18 +110,30 @@ class App extends React.Component  {
 
         var deck = this.state.deck;
         var playerHand = this.state.playerHand;
+        
 
         var card = deck.shift();
         playerHand.push(card);
-
+        var score = util.calculateTotal(util.evaluateHand(this.state.playerHand));
         // TODO check if bust
+        console.log(score);//testing vals
+
+        
+        if(score > 21){
+            console.log("busted"); //testing to see if values work
+            this.stand();
+        }
+        if(score == 21){
+            console.log("blackjack"); //testing blackjack
+            this.stand();
+        }
 
         this.setState({
             deck: deck,
             playerHand: playerHand
         });
 
-        return console.log('hit');
+        return console.log('hit complete');
     }
 
     split = ()=> {
@@ -130,8 +142,26 @@ class App extends React.Component  {
     }
 
     stand= ()=> {
-        return console.log('stand');
-        // check who wins
+
+        var dealerScore = util.calculateTotal(util.evaluateHand(this.state.dealerHand));
+
+        console.log("dealerScore");
+        console.log(dealerScore);//testing values
+
+        var playerScore = util.calculateTotal(util.evaluateHand(this.state.playerHand));
+
+        console.log("playerScore");
+        console.log(playerScore);// testing values
+
+        if(playerScore == 21){
+            return console.log("stand: blackjack");
+        }
+
+        var isWinner = util.getWinner(playerScore, dealerScore);
+
+        console.log(isWinner); // testing winner
+
+        return console.log('stand complete');
         // call endGame()
     }
 
@@ -147,12 +177,19 @@ class App extends React.Component  {
                 Hit
         </button>
         );
+        var standButton = (
+            <button onClick={this.stand} 
+                disabled={this.state.gameState !== gameState.STARTED}>
+                <span>Stand</span>
+            </button>
+        );
 
         return (
           <div className="App">
             <BettingForm disabled={this.state.gameState===gameState.STARTED} startGame={this.startGame}/>
 
             {hitButton}
+            {standButton}
             <Hand cards={this.state.playerHand}/>
           </div>
         );

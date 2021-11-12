@@ -1,7 +1,10 @@
 import React from 'react';
 import Card from './card.jsx';
 
+
+
 class Hand extends React.Component {
+   
     render() {
         // iterate through cards and display them
         return(
