@@ -1,3 +1,19 @@
+// get a new shuffled deck
+exports.getDeck = ()=> {
+    var deck = []
+    const ranks = ['A','2','3','4','5','6','7','8','9','T','J','Q','K'];
+    const suits = ['D','H','C','S'];
+    ranks.forEach(rank => {
+        suits.forEach(suit => {
+            deck.push(rank+suit);
+        })
+    });
+    deck = exports.shuffleArray(deck);
+
+    return deck;
+}
+
+
 // shuffle array
 exports.shuffleArray = (arr)=> {
     var shuffledCopy = [], n = arr.length, i;

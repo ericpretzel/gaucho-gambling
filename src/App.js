@@ -1,6 +1,6 @@
 import React from 'react';
-import Deck from './deck.js';
 import Hand from './hand.jsx';
+import BettingForm from './bet.jsx';
 
 const util = require('./util.js');
 
@@ -9,9 +9,6 @@ const gameState = {
     STARTED: 1,
     FINISHED: 2,
 }
-
-
-
 
 class App extends React.Component  {
 
@@ -59,7 +56,7 @@ class App extends React.Component  {
         super(props);
 
         this.state = {
-            deck: this.getDeck(),
+            deck: util.getDeck(),
 
             playerMoney: 100,
             playerBet: 0,
@@ -71,28 +68,14 @@ class App extends React.Component  {
         };
     }
 
-    // get a new shuffled deck
-    getDeck = ()=> {
-        var deck = []
-        const ranks = ['A','2','3','4','5','6','7','8','9','T','J','Q','K'];
-        const suits = ['D','H','C','S'];
-        ranks.forEach(rank => {
-            suits.forEach(suit => {
-                deck.push(rank+suit);
-            })
-        });
-        deck = util.shuffleArray(deck);
-
-        return deck;
-    }
-
     // starts the game with the given bet
     startGame = (bet)=> {
-        if (bet <= 0 || bet > this.state.playerMoney)
-            return alert("Invalid bet");
+        // validate bet input
+        if (isNaN(bet) || +bet <= 0 || +bet > this.state.playerMoney)
+            return alert("Invalid Bet!");
 
         // generate new shuffled deck
-        var deck = this.getDeck();
+        var deck = util.getDeck();
 
         var dealerHand = [];
         var playerHand = [];
@@ -125,9 +108,20 @@ class App extends React.Component  {
 
     hit = ()=> {
 
+        var deck = this.state.deck;
+        var playerHand = this.state.playerHand;
+
+        var card = deck.shift();
+        playerHand.push(card);
+
+        // TODO check if bust
+
+        this.setState({
+            deck: deck,
+            playerHand: playerHand
+        });
+
         return console.log('hit');
-        // add card from deck to player's hand
-        // automatically stand if the player busts
     }
 
     split = ()=> {
@@ -146,14 +140,18 @@ class App extends React.Component  {
     }
 
     render() {
-        // render player/dealer hands, hit/stand/split buttons, bet field, etc
-
-        var newGameButton = <button onClick={this.startGame} disabled={this.state.gameState === gameState.STARTED}>New Game</button>
-        var hitButton = <button disabled={this.state.gameState !== gameState.STARTED}>Hit</button>
+        // render everything
+        var hitButton = (
+        <button onClick={this.hit}
+                disabled={this.state.gameState !== gameState.STARTED}>
+                Hit
+        </button>
+        );
 
         return (
           <div className="App">
-            {newGameButton}
+            <BettingForm disabled={this.state.gameState===gameState.STARTED} startGame={this.startGame}/>
+
             {hitButton}
             <Hand cards={this.state.playerHand}/>
           </div>

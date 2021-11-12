@@ -110,17 +110,21 @@ const cards = {
 	'KS': cKS,
 }
 
+// for resizing the images
+const cardWidth = 137
+const cardHeight = 187
+
 class Card extends React.Component {
     render() {
         // show front of card if faceup
         if (this.props.isFaceup)
         return (
-            <img src={cards[this.props.rank+this.props.suit]} alt={back} className="card"/>
+            <img width={cardWidth} height={cardHeight} src={cards[this.props.rank+this.props.suit]} alt={back} className="card"/>
         );
 
         // else show back of card
         return (
-            <img src={back} alt={back} className="card"/>
+            <img width={cardWidth} height={cardHeight} src={back} alt={back} className="card"/>
         );
     }
 }
