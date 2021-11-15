@@ -3,54 +3,9 @@ import Hand from './hand.jsx';
 import BettingForm from './bet.jsx';
 
 const util = require('./util.js');
-
-const gameState = {
-    NOT_STARTED: 0,
-    STARTED: 1,
-    FINISHED: 2,
-}
+const gameState = util.gameState;
 
 class App extends React.Component  {
-
-    /*
-     * This is where most of the game takes place
-     *
-     * PROPS (and/or state variables idk):
-     *
-     * deck:Deck                - the deck
-     *
-     * dealerHand:Hand          - the dealer's hand
-     *
-     * playerHand:Hand          - the player's hand. If we want more than one player, we can make this an array?
-     *
-     * playerMoney:int          - The player's money
-     *
-     * playerBet:int            - The player's current bet
-     *
-     * gameState                - Current state of the game (in progress, finished...etc.?)
-     *
-     *
-     * FUNCTIONS
-     *
-     * render()                 - display the app
-     *
-     * startGame():void         - set up initial conditions: player gets 2 cards face-up, dealer gets 1 card
-     *                            face-up and 1 card face-down. Lock in bet, enable hit/stand buttons... etc
-     *
-     * hit():void               - player hits. Draw card from deck and add it to player hand. stand() if bust.
-     *
-     * split():void             - Not sure how to implement this at the moment
-     *
-     * stand():void             - Evaluate game state after dealer has played. If player busts, they lose.
-     *                            Else if dealer busts, player wins. Else, compare points of dealer and player.
-     *                            Tie if points are equal, otherwise player wins if they have more points
-     *                            and loses if they have less.
-     *                            Finally, update playerMoney appropriately according to what they bet.
-     *
-     * endGame():void           - Empty the hands, return cards to deck, allow player to change bet, etc
-     *
-     *
-     */
 
     constructor(props) {
         super(props);
@@ -110,20 +65,17 @@ class App extends React.Component  {
 
         var deck = this.state.deck;
         var playerHand = this.state.playerHand;
-        
+
 
         var card = deck.shift();
         playerHand.push(card);
-        var score = util.calculateTotal(util.evaluateHand(this.state.playerHand));
-        // TODO check if bust
-        console.log(score);//testing vals
+        var playerScore = util.calculateTotal(util.evaluateHand(this.state.playerHand));
 
-        
-        if(score > 21){
+        if(playerScore > 21){
             console.log("busted"); //testing to see if values work
             this.stand();
         }
-        if(score == 21){
+        if(playerScore === 21){
             console.log("blackjack"); //testing blackjack
             this.stand();
         }
@@ -141,32 +93,34 @@ class App extends React.Component  {
         // yea
     }
 
+    // ends the game
     stand= ()=> {
+        // dealer hits until the total is >=17
+        var dealerHand = this.state.dealerHand;
+        var deck = this.state.deck;
+        while (util.calculateTotal(util.evaluateHand(dealerHand)) < 17) {
+            var card = deck.shift();
+            dealerHand.push(card);
+        }
 
-        var dealerScore = util.calculateTotal(util.evaluateHand(this.state.dealerHand));
-
-        console.log("dealerScore");
-        console.log(dealerScore);//testing values
+        var dealerScore = util.calculateTotal(util.evaluateHand(dealerHand));
+        console.log("dealerscore=", dealerScore);//testing values
 
         var playerScore = util.calculateTotal(util.evaluateHand(this.state.playerHand));
-
-        console.log("playerScore");
-        console.log(playerScore);// testing values
-
-        if(playerScore == 21){
-            return console.log("stand: blackjack");
-        }
+        console.log("playerScore=", playerScore);// testing values
 
         var isWinner = util.getWinner(playerScore, dealerScore);
 
-        console.log(isWinner); // testing winner
+        console.log("isWinner=", isWinner); // testing winner
 
-        return console.log('stand complete');
-        // call endGame()
-    }
+        // payout is x2.5 if blackjack, x2 if normal win
+        var payoutMultiplier = isWinner ? (playerScore === 21 ? 2.5 : 2) : 0;
 
-    endGame= ()=> {
-        // perform cleanup
+        this.setState((state, props) => ({
+            gameState: gameState.FINISHED,
+            playerMoney: state.playerMoney + state.playerBet * payoutMultiplier
+        }));
+
     }
 
     render() {
@@ -174,24 +128,29 @@ class App extends React.Component  {
         var hitButton = (
         <button onClick={this.hit}
                 disabled={this.state.gameState !== gameState.STARTED}>
-                Hit
+                <span>Hit</span>
         </button>
         );
         var standButton = (
-            <button onClick={this.stand} 
+            <button onClick={this.stand}
                 disabled={this.state.gameState !== gameState.STARTED}>
                 <span>Stand</span>
             </button>
         );
 
-        return (
-          <div className="App">
-            <BettingForm disabled={this.state.gameState===gameState.STARTED} startGame={this.startGame}/>
+        var playerHand = (<Hand className="playerHand" cards={this.state.playerHand} isDealer={false} gameState={this.state.gameState}/>);
+        var dealerHand = (<Hand className="dealerHand" cards={this.state.dealerHand} isDealer={true} gameState={this.state.gameState}/>);
 
+        var bettingForm = (<BettingForm disabled={this.state.gameState===gameState.STARTED} startGame={this.startGame}/>);
+        return (
+            <div className="App">
+            {"Money: $" + this.state.playerMoney}
+            {bettingForm}
             {hitButton}
             {standButton}
-            <Hand cards={this.state.playerHand}/>
-          </div>
+            {playerHand} <br/>
+            {dealerHand}
+            </div>
         );
     }
 }

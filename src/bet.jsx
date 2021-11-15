@@ -24,10 +24,10 @@ class BettingForm extends React.Component {
         return (
             <form onSubmit={this.handleSubmit}>
                 <label>
-                    Bet:
-                    <input type="text" value={this.state.value} onChange={this.handleChange}/>
+                    Bet: 
                 </label>
-                <input type="submit" disabled={this.props.disabled} value="Place Bet"/>
+            <input type="text" value={this.state.value} onChange={this.handleChange}/>
+            <input type="submit" disabled={this.props.disabled} value="Place Bet"/>
             </form>
         );
     }

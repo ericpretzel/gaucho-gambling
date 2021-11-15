@@ -1,3 +1,10 @@
+// state of the game
+exports.gameState = {
+    NOT_STARTED: 0,
+    STARTED: 1,
+    FINISHED: 2,
+}
+
 // get a new shuffled deck
 exports.getDeck = ()=> {
     var deck = []
