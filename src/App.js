@@ -19,14 +19,16 @@ class App extends React.Component  {
             dealerHand: [],
             playerHand: [],
 
-            gameState: gameState.NOT_STARTED
+            gameState: gameState.NOT_STARTED,
+            message: "Place a bet to start!"
         };
     }
 
     // starts the game with the given bet
     startGame = (bet)=> {
         // validate bet input
-        if (isNaN(bet) || +bet <= 0 || +bet > this.state.playerMoney)
+        bet = parseInt(bet)
+        if (isNaN(bet) || bet <= 0 || bet > this.state.playerMoney)
             return alert("Invalid Bet!");
 
         // generate new shuffled deck
@@ -56,6 +58,7 @@ class App extends React.Component  {
             playerBet: bet,
             playerMoney: state.playerMoney - bet,
             gameState: gameState.STARTED,
+            message: "Good luck!"
         }));
 
         console.log('game started');
@@ -73,11 +76,11 @@ class App extends React.Component  {
 
         if(playerScore > 21){
             console.log("busted"); //testing to see if values work
-            this.stand();
+            this.stand(playerScore);
         }
         if(playerScore === 21){
             console.log("blackjack"); //testing blackjack
-            this.stand();
+            this.stand(playerScore);
         }
 
         this.setState({
@@ -94,31 +97,54 @@ class App extends React.Component  {
     }
 
     // ends the game
-    stand= ()=> {
-        // dealer hits until the total is >=17
+    stand = (playerScore)=> {
+        // dealer hits until the total is >=17 (if player doesn't bust)
         var dealerHand = this.state.dealerHand;
         var deck = this.state.deck;
-        while (util.calculateTotal(util.evaluateHand(dealerHand)) < 17) {
-            var card = deck.shift();
-            dealerHand.push(card);
+        if (playerScore <= 21) {
+            while (util.calculateTotal(util.evaluateHand(dealerHand)) < 17) {
+                var card = deck.shift();
+                dealerHand.push(card);
+            }
         }
-
+        
         var dealerScore = util.calculateTotal(util.evaluateHand(dealerHand));
-        console.log("dealerscore=", dealerScore);//testing values
-
-        var playerScore = util.calculateTotal(util.evaluateHand(this.state.playerHand));
-        console.log("playerScore=", playerScore);// testing values
+        console.log("dealerScore = ", dealerScore);
 
         var isWinner = util.getWinner(playerScore, dealerScore);
+        console.log("isWinner = ", isWinner);
 
-        console.log("isWinner=", isWinner); // testing winner
-
-        // payout is x2.5 if blackjack, x2 if normal win
-        var payoutMultiplier = isWinner ? (playerScore === 21 ? 2.5 : 2) : 0;
+        // payout is x2.5 if blackjack, x2 if normal win, x1 if tie, and x0 if lose.
+        var payoutMultiplier = 0;
+        var message = "";
+        switch (isWinner) {
+            case true: 
+                if (playerScore===21) {
+                    message = "Blackjack!";
+                    payoutMultiplier = 2.5;
+                } else { 
+                    message = "You win!";
+                    payoutMultiplier = 2;
+                }
+                break;
+            case null:
+                message = "Push!";
+                payoutMultiplier = 1;
+                break;
+            default: case false: 
+                if (playerScore > 21) {
+                    message = "Bust!";
+                } else {
+                    message = "You lost!";
+                }
+                payoutMultiplier = 0;
+                break;
+        }
 
         this.setState((state, props) => ({
             gameState: gameState.FINISHED,
-            playerMoney: state.playerMoney + state.playerBet * payoutMultiplier
+            playerMoney: state.playerMoney + state.playerBet * payoutMultiplier,
+            message: message + " Play again?"
         }));
 
     }
@@ -132,7 +158,7 @@ class App extends React.Component  {
         </button>
         );
         var standButton = (
-            <button onClick={this.stand}
+            <button onClick={() => this.stand(util.calculateTotal(util.evaluateHand(this.state.playerHand)))}
                 disabled={this.state.gameState !== gameState.STARTED}>
                 <span>Stand</span>
             </button>
@@ -144,7 +170,8 @@ class App extends React.Component  {
         var bettingForm = (<BettingForm disabled={this.state.gameState===gameState.STARTED} startGame={this.startGame}/>);
         return (
             <div className="App">
-            {"Money: $" + this.state.playerMoney}
+            {"Money: $" + this.state.playerMoney} <br/>
+            {this.state.message}
             {bettingForm}
             {hitButton}
             {standButton}
