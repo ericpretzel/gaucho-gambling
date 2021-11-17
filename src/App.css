@@ -1,1 +1,31 @@
 
+
+button {
+    margin: 20px 20px 20px 20px;
+}
+.card {
+    /* margin-left: 10px;
+    margin-right: 10px; */
+    display: auto;
+    margin: 10px 10px 10px 10px;
+
+    /* width: 50%; */
+    }
+.center {
+    color: 'white';
+    margin: auto;
+    width: 50%;
+    border: 3px solid white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 20px;
+    }
+.card-center {
+    color: 'white';
+    margin: auto;
+    width: 75%;
+    border: 3px solid white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 20px;
+    }

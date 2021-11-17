@@ -1,6 +1,7 @@
 import React from 'react';
 import Hand from './hand.jsx';
 import BettingForm from './bet.jsx';
+import './App.css';
 
 const util = require('./util.js');
 const gameState = util.gameState;
@@ -169,14 +170,20 @@ class App extends React.Component  {
 
         var bettingForm = (<BettingForm disabled={this.state.gameState===gameState.STARTED} startGame={this.startGame}/>);
         return (
+            
             <div className="App">
+            
+            <div className="center">
             {"Money: $" + this.state.playerMoney} <br/>
             {this.state.message}
+            </div>
             {bettingForm}
             {hitButton}
             {standButton}
-            {playerHand} <br/>
-            {dealerHand}
+            <div className="card-center">
+            {dealerHand} <br/>
+            {playerHand}
+            </div>
             </div>
         );
     }
