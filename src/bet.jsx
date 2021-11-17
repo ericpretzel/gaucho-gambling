@@ -1,4 +1,5 @@
 import React from 'react';
+import './bet.css';
 
 class BettingForm extends React.Component {
 
@@ -22,13 +23,13 @@ class BettingForm extends React.Component {
 
     render() {
         return (
+            <div className="bet-form">
             <form onSubmit={this.handleSubmit}>
-                <label>
-                    Bet: 
-                </label>
-            <input type="text" value={this.state.value} onChange={this.handleChange}/>
-            <input type="submit" disabled={this.props.disabled} value="Place Bet"/>
+            <label id="bet-label">Bet: </label>
+            <input className="bet-field" type="text" value={this.state.value} onChange={this.handleChange}/> <br/>
+            <input className="bet-submit" type="submit" disabled={this.props.disabled} value="Place Bet"/>
             </form>
+            </div>
         );
     }
 }
