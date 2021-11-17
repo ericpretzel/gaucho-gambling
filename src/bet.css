@@ -1,0 +1,45 @@
+.bet-submit {
+    font-family: BebasNeue, serif;
+    font-size:large;
+    text-align:center;
+    color:white;
+
+    border-radius:5px;
+    border:solid white;
+    border-width: 2 px;
+    padding:20px;
+    margin: 10px 10px 15px 10px;
+    width:40%;
+    font-size: 30px;
+    background-color: darkblue;
+    cursor:pointer;
+}
+.bet-submit:hover {
+    background-color:rgb(0, 0, 90);
+}
+.bet-submit:disabled {
+    visibility:hidden
+}
+
+.bet-field {
+    font-family: BebasNeue, serif;
+    border:none;
+    border-bottom: 2px solid white;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    color:white;
+    background-color: transparent;
+    font-size: 40px;
+    width: 20%;
+    text-align: center;
+}
+
+.bet-form {
+    margin:auto;
+    width:50%;
+    text-align:center;
+}
+
+#bet-label {
+    color:white;
+}

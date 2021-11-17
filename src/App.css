@@ -1,1 +1,72 @@
 
+
+button {
+    font-family: BebasNeue, serif;
+    font-size:30px;
+    text-align:center;
+    color:white;
+
+    border-radius:5px;
+    border:solid white;
+    border-width: 2 px;
+    padding:10px;
+    /* margin: 20px 10px 10px 10px;
+    /* margin:auto; */
+    width:10%;
+
+    background-color: darkblue;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-bottom: 15px;
+    /*margin: 0 auto;
+    
+    width: 20%;
+    /* 
+    margin-top: 15px;
+    margin-bottom: 20px;
+     */
+     
+    
+    cursor:pointer;
+}
+button:hover {
+    background-color:rgb(0, 0, 90);
+}
+.App{
+    color:white;
+    font-family: BebasNeue, serif;
+    font-size: 40px;
+}
+.hand {
+    font-family: BebasNeue, serif;
+    color:white;
+    font-size: 40px;
+    text-decoration: underline;
+    
+}
+.card {
+    /* margin-left: 10px;
+    margin-right: 10px; */
+    display: auto;
+    margin: 10px 10px 10px 10px;
+
+    /* width: 50%; */
+    }
+.center {
+    color: 'white';
+    margin: auto;
+    width: 50%;
+    border: 3px solid white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 20px;
+    }
+.card-center {
+    color: 'white';
+    margin: auto;
+    width: 75%;
+    border: 3px solid white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 20px;
+    }
