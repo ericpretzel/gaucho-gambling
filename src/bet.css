@@ -7,10 +7,10 @@
     border:solid white;
     border-width: 2 px;
     padding:20px;
-    margin: 20px 10px 10px 10px;
+    margin: 10px 10px 15px 10px;
     /* margin:auto; */
     width:40%;
-
+    font-size: 30px;
     background-color: darkblue;
     cursor:pointer;
 }
@@ -24,10 +24,13 @@
 .bet-field {
     border:none;
     border-bottom: 2px solid white;
-    margin: 20px 10px 10px 10px;
     margin-bottom: 5px;
+    margin-top: 10px;
     color:white;
     background-color: transparent;
+    font-size: 40px;
+    width: 20%;
+    text-align: center;
 }
 
 .bet-form {
@@ -37,6 +40,5 @@
 }
 
 #bet-label {
-    margin: 20px 10px 10px 10px;
     color:white;
 }

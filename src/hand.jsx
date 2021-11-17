@@ -21,7 +21,7 @@ class Hand extends React.Component {
                 // iterate through cards and display them
         return(
             <div className="hand">
-            <text color="red">{this.label()}</text>
+            <text>{this.label()}</text><br/>
             {this.props.cards.map((card, i) => 
                 <Card suit={card[1]}
                 rank={card[0]}
