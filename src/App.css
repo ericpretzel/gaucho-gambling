@@ -1,6 +1,7 @@
 
 
 button {
+    font-family: BebasNeue, serif;
     font-size:30px;
     text-align:center;
     color:white;
@@ -33,9 +34,11 @@ button:hover {
 }
 .App{
     color:white;
+    font-family: BebasNeue, serif;
     font-size: 40px;
 }
 .hand {
+    font-family: BebasNeue, serif;
     color:white;
     font-size: 40px;
     text-decoration: underline;

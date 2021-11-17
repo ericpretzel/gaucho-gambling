@@ -7,8 +7,8 @@ const util = require('./util.js');
 const gameState = util.gameState;
 
 class App extends React.Component  {
-
-    constructor(props) {
+    
+        constructor(props) {
         super(props);
 
         this.state = {

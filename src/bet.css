@@ -1,4 +1,5 @@
 .bet-submit {
+    font-family: BebasNeue, serif;
     font-size:large;
     text-align:center;
     color:white;
@@ -8,7 +9,6 @@
     border-width: 2 px;
     padding:20px;
     margin: 10px 10px 15px 10px;
-    /* margin:auto; */
     width:40%;
     font-size: 30px;
     background-color: darkblue;
@@ -22,6 +22,7 @@
 }
 
 .bet-field {
+    font-family: BebasNeue, serif;
     border:none;
     border-bottom: 2px solid white;
     margin-bottom: 5px;
