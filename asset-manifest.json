@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/gaucho-gambling/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/gaucho-gambling/static/js/main.a674174a.chunk.js",
-    "main.js.map": "/gaucho-gambling/static/js/main.a674174a.chunk.js.map",
+    "main.css": "/gaucho-gambling/static/css/main.f1d0e0b4.chunk.css",
+    "main.js": "/gaucho-gambling/static/js/main.ffc4b2f9.chunk.js",
+    "main.js.map": "/gaucho-gambling/static/js/main.ffc4b2f9.chunk.js.map",
     "runtime-main.js": "/gaucho-gambling/static/js/runtime-main.df55482f.js",
     "runtime-main.js.map": "/gaucho-gambling/static/js/runtime-main.df55482f.js.map",
     "static/js/2.8ff444c4.chunk.js": "/gaucho-gambling/static/js/2.8ff444c4.chunk.js",
     "static/js/2.8ff444c4.chunk.js.map": "/gaucho-gambling/static/js/2.8ff444c4.chunk.js.map",
     "index.html": "/gaucho-gambling/index.html",
-    "static/css/main.6dea0f05.chunk.css.map": "/gaucho-gambling/static/css/main.6dea0f05.chunk.css.map",
+    "static/css/main.f1d0e0b4.chunk.css.map": "/gaucho-gambling/static/css/main.f1d0e0b4.chunk.css.map",
     "static/js/2.8ff444c4.chunk.js.LICENSE.txt": "/gaucho-gambling/static/js/2.8ff444c4.chunk.js.LICENSE.txt",
     "static/media/1B.eb0ed9a0.svg": "/gaucho-gambling/static/media/1B.eb0ed9a0.svg",
     "static/media/2C.ae60ecf2.svg": "/gaucho-gambling/static/media/2C.ae60ecf2.svg",
@@ -47,6 +47,7 @@
     "static/media/AD.1ce2b4c2.svg": "/gaucho-gambling/static/media/AD.1ce2b4c2.svg",
     "static/media/AH.f862fe04.svg": "/gaucho-gambling/static/media/AH.f862fe04.svg",
     "static/media/AS.82b68d67.svg": "/gaucho-gambling/static/media/AS.82b68d67.svg",
+    "static/media/index.css": "/gaucho-gambling/static/media/BebasNeue-Regular.9aa03f9d.ttf",
     "static/media/JC.8c1e02cb.svg": "/gaucho-gambling/static/media/JC.8c1e02cb.svg",
     "static/media/JD.7a9a4794.svg": "/gaucho-gambling/static/media/JD.7a9a4794.svg",
     "static/media/JH.51714864.svg": "/gaucho-gambling/static/media/JH.51714864.svg",
@@ -67,7 +68,7 @@
   "entrypoints": [
     "static/js/runtime-main.df55482f.js",
     "static/js/2.8ff444c4.chunk.js",
-    "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.a674174a.chunk.js"
+    "static/css/main.f1d0e0b4.chunk.css",
+    "static/js/main.ffc4b2f9.chunk.js"
   ]
 }
