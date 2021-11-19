@@ -7,7 +7,7 @@ const util = require('./util.js');
 const gameState = util.gameState;
 
 class App extends React.Component  {
-    
+
         constructor(props) {
         super(props);
 
@@ -21,7 +21,7 @@ class App extends React.Component  {
             playerHand: [],
 
             gameState: gameState.NOT_STARTED,
-            message: "Place a bet to start!"
+            message: "Welcome to Blackjack! Place a bet to start!"
         };
     }
 
@@ -108,7 +108,7 @@ class App extends React.Component  {
                 dealerHand.push(card);
             }
         }
-        
+
         var dealerScore = util.calculateTotal(util.evaluateHand(dealerHand));
         console.log("dealerScore = ", dealerScore);
 
@@ -119,11 +119,11 @@ class App extends React.Component  {
         var payoutMultiplier = 0;
         var message = "";
         switch (isWinner) {
-            case true: 
+            case true:
                 if (playerScore===21) {
                     message = "Blackjack!";
                     payoutMultiplier = 2.5;
-                } else { 
+                } else {
                     message = "You win!";
                     payoutMultiplier = 2;
                 }
@@ -132,7 +132,7 @@ class App extends React.Component  {
                 message = "Push!";
                 payoutMultiplier = 1;
                 break;
-            default: case false: 
+            default: case false:
                 if (playerScore > 21) {
                     message = "Bust!";
                 } else {
@@ -170,9 +170,9 @@ class App extends React.Component  {
 
         var bettingForm = (<BettingForm disabled={this.state.gameState===gameState.STARTED} startGame={this.startGame}/>);
         return (
-            
+
             <div className="App">
-            
+
             <div className="center">
             {"Money: $" + this.state.playerMoney} <br/>
             {this.state.message}
