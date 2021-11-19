@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/gaucho-gambling/static/css/main.f1d0e0b4.chunk.css",
-    "main.js": "/gaucho-gambling/static/js/main.ffc4b2f9.chunk.js",
-    "main.js.map": "/gaucho-gambling/static/js/main.ffc4b2f9.chunk.js.map",
+    "main.js": "/gaucho-gambling/static/js/main.c4bf96e1.chunk.js",
+    "main.js.map": "/gaucho-gambling/static/js/main.c4bf96e1.chunk.js.map",
     "runtime-main.js": "/gaucho-gambling/static/js/runtime-main.df55482f.js",
     "runtime-main.js.map": "/gaucho-gambling/static/js/runtime-main.df55482f.js.map",
     "static/js/2.8ff444c4.chunk.js": "/gaucho-gambling/static/js/2.8ff444c4.chunk.js",
@@ -69,6 +69,6 @@
     "static/js/runtime-main.df55482f.js",
     "static/js/2.8ff444c4.chunk.js",
     "static/css/main.f1d0e0b4.chunk.css",
-    "static/js/main.ffc4b2f9.chunk.js"
+    "static/js/main.c4bf96e1.chunk.js"
   ]
 }
